@@ -2,18 +2,30 @@
     <div class="register">
         <h3>Registration</h3>
         <div>
-            <form>
-                <div>
-                    <label for="username">Username:</label>
-                    <input type="text" name="username" id="username">
-                </div>
+            <form @submit.prevent="submit">
                 <div>
                     <label for="full_name">Full Name:</label>
-                    <input type="text" name="full_name" id="full_name">
+                    <input type="text" name="name" id="name" v-model="form.name">
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" v-model="form.email">
+                </div>
+                <div>
+                    <label for="full_name">Contact Name:</label>
+                    <input type="text" name="contact_name" id="contact_name" v-model="form.contact_name">
+                </div>
+                <div>
+                    <label for="full_name">Contact Number:</label>
+                    <input type="text" name="contact_number" id="contact_number" v-model="form.contact_number">
+                </div>
+                <div>
+                    <label for="full_name">Address:</label>
+                    <textarea id="address" name="address" v-model="form.address"></textarea>
                 </div>
                 <div>
                     <label for="password">Password:</label>
-                    <input type="text" name="username" id="password">
+                    <input type="text" name="username" id="password" v-model="form.password">
                 </div>
                 <button type="submit">Submit</button>
             </form>
@@ -23,11 +35,31 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'RegisterView',
   components: {},
   data() {
+    return {
+      form: {
+        name: '',
+        email: '',
+        contact_name: '',
+        contact_number: '',
+        address: '',
+        password: '',
+        type: 4
+      },
+      showError: false
+    }
   },
+  methods: {
+    ...mapActions(["Register"]),
+     async submit() {
+      await this.Register(this.form);
+    }
+  }
 }
 </script>
 
