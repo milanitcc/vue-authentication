@@ -18,8 +18,19 @@
                 <button type="submit">Submit</button>
             </form>
         </div>
+        <p v-if="showError" id="error">Some error</p>
     </div>
 </template>
+
+<script>
+export default {
+  name: 'RegisterView',
+  components: {},
+  data() {
+  },
+}
+</script>
+
 
 <style scoped>
 * {
