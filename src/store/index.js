@@ -1,17 +1,18 @@
 import axios from "axios";
 import { createStore } from 'vuex';
+import createPersistedState from "vuex-persistedstate";
 
 const state = {
-    user: null
+    token: null
 };
 
 const getters = {
-    isAuthenticated: state => !!state.user
+    isAuthenticated: state => !!state.token
 };
 
 const mutations = {
     setUser(state, payload) {
-        state.user = payload;
+        state.token = payload;
     }
 };
 
@@ -22,6 +23,14 @@ const actions = {
         console.log(data);
 
         context.commit('setUser', data.data);
+    },
+
+    async LogIn(context, form) {
+        let data = await axios.post('/login', form);
+
+        console.log(data.data.data);
+
+        context.commit('setUser', data.data.data.token);
     }
 }
 
@@ -29,5 +38,6 @@ export default createStore ({
     state,
     getters,
     actions,
-    mutations
+    mutations,
+    plugins: [createPersistedState()]
 })

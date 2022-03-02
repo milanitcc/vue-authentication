@@ -1,20 +1,61 @@
 <template>
   <div class="login">
     <div>
-      <form>
+      <form @submit.prevent="handleSubmit">
         <div>
-          <label for="username">Username:</label>
-          <input type="text" name="username"/>
+          <label for="email">Email:</label>
+          <input type="email" name="Email" v-model="form.email"/>
+          <span class="error" v-if="errors.email">{{ errors.email[0] }}</span>
         </div>
         <div>
           <label for="password">Password:</label>
-          <input type="password" name="password"/>
+          <input type="password" name="password" v-model="form.password"/>
+          <span class="error" v-if="errors.password">{{ errors.password[0] }}</span>
         </div>
         <button type="submit">Submit</button>
       </form>
     </div>
   </div>
 </template>
+
+<script>
+import { mapActions, mapState } from 'vuex'
+export default {
+  data() {
+    return {
+      form: {
+        email: '',
+        password: ''
+      },
+      errors:{}
+    }
+  },
+  computed: {
+    ...mapState(["token"]),
+  },
+  methods: {
+    ...mapActions(["LogIn"]),
+    async handleSubmit() {
+      try
+      {
+        await this.LogIn(this.form);
+
+        this.$router.push('/products');
+
+      } catch(error) {
+        this.errors = error.response.data.errors;
+      }
+      // await this.LogIn(this.form).then(response => {
+      //   console.log(response, this.$state.token);
+      //   this.$router.push('/products');
+      // }).catch(error => {
+      //   this.errors = error.response.data.errors;
+      // });
+    }
+  }
+}
+</script>
+
 
 <style scoped>
 * {
@@ -40,7 +81,7 @@ input {
   padding:10px;
   border-radius:30px;
 }
-#error {
+.error {
   color: red;
 }
 </style>

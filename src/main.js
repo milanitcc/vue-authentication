@@ -5,7 +5,7 @@ import axios from 'axios';
 import store from './store'
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = '/api/v1';
+axios.defaults.baseURL = '/api';
 
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
